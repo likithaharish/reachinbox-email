@@ -1,0 +1,85 @@
+@import url("https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html,
+  body,
+  #root {
+    min-height: 100%;
+  }
+
+  body {
+    @apply bg-fh-white font-sans text-fh-heading antialiased;
+    background-color: #ffffff;
+  }
+
+  ::selection {
+    background: rgba(113, 160, 112, 0.25);
+    color: #092b28;
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply rounded-fh border border-fh-border-light bg-fh-white;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  }
+
+  .glass-card-hover {
+    @apply glass-card transition duration-200 hover:border-fh-green/40 hover:shadow-outbox;
+  }
+
+  .outbox-card {
+    @apply glass-card;
+  }
+
+  .gradient-text {
+    @apply text-fh-green;
+  }
+
+  .outbox-input {
+    @apply w-full rounded-[10px] border border-fh-border bg-fh-white px-[14px] py-3 text-[15px] text-fh-heading placeholder:text-fh-dim outline-none transition focus:border-fh-green;
+  }
+
+  .outbox-btn-primary,
+  .outbox-btn-accent {
+    @apply inline-flex items-center justify-center gap-2 rounded-fh bg-fh-green px-6 py-3.5 text-base font-medium text-white transition hover:brightness-110 disabled:opacity-50;
+  }
+
+  .outbox-btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 rounded-fh border border-fh-green bg-fh-white px-6 py-2.5 text-sm font-medium text-fh-green transition hover:bg-fh-green hover:text-white disabled:opacity-50;
+  }
+
+  .outbox-tab {
+    @apply relative rounded-fh border px-4 py-2.5 text-sm font-medium transition;
+  }
+
+  .outbox-tab-active {
+    @apply border-fh-green bg-fh-green text-white;
+  }
+
+  .outbox-tab-inactive {
+    @apply border-fh-border bg-fh-white text-fh-body hover:border-fh-green hover:text-fh-navy;
+  }
+
+  .live-badge {
+    @apply inline-flex items-center gap-1.5 rounded-full border border-fh-green bg-fh-white px-3 py-1 text-xs font-medium text-fh-green;
+  }
+
+  .shimmer-line {
+    @apply h-3 rounded-full bg-gradient-to-r from-fh-card via-fh-border-light to-fh-card;
+    background-size: 200% 100%;
+    animation: shimmer 2.5s linear infinite;
+  }
+
+  .orb {
+    @apply pointer-events-none absolute rounded-full blur-3xl;
+  }
+
+  .table-row-hover {
+    @apply border-b border-fh-border-light transition hover:bg-fh-card;
+  }
+}

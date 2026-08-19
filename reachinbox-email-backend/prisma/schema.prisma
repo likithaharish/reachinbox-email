@@ -1,0 +1,71 @@
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum EmailStatus {
+  pending
+  sent
+  failed
+}
+
+model GoogleUser {
+  id         String   @id @default(cuid())
+  googleSub  String   @unique
+  email      String
+  name       String
+  avatarUrl  String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  batches    EmailBatch[]
+}
+
+model EmailBatch {
+  id                       String   @id @default(cuid())
+  userId                   String?
+  user                      GoogleUser? @relation(fields: [userId], references: [id])
+
+  subject                  String
+  body                     String @db.Text
+
+  startTime                DateTime
+  minDelayMs               Int
+  hourlyLimitPerSender    Int
+
+  createdAt                DateTime @default(now())
+  updatedAt                DateTime @updatedAt
+
+  scheduledEmails          ScheduledEmail[]
+}
+
+model ScheduledEmail {
+  id               String      @id @default(cuid())
+  batchId          String
+  batch            EmailBatch  @relation(fields: [batchId], references: [id])
+
+  recipientEmail  String
+  senderKey        String
+  sequence        Int
+
+  scheduledTime   DateTime
+  status          EmailStatus @default(pending)
+  sentTime        DateTime?
+  errorMessage    String?     @db.Text
+  messageId       String?
+  previewToken    String?     @unique
+  previewPayload  Json?
+
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@unique([batchId, recipientEmail])
+  @@index([senderKey, status, scheduledTime])
+  @@index([batchId, status])
+}
+

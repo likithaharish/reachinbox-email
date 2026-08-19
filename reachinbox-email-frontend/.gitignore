@@ -1,0 +1,19 @@
+node_modules/
+dist/
+
+# Vite / TS build info
+tsconfig.tsbuildinfo
+
+# Env files (never commit secrets)
+.env
+.env.*
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+*.log
+
+.DS_Store
+

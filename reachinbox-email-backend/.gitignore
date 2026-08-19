@@ -1,0 +1,15 @@
+node_modules/
+dist/
+
+# Env files (secrets)
+.env
+.env.*
+
+# Logs
+*.log
+
+.DS_Store
+
+# Prisma (do not ignore migrations / schema; just ignore local sqlite if ever used)
+prisma/*.db
+
