@@ -1,6 +1,6 @@
 generator client {
   provider      = "prisma-client-js"
-  binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
+  binaryTargets = ["native", "linux-musl-openssl-3.0.x", "windows"]
 }
 
 datasource db {
@@ -27,30 +27,30 @@ model GoogleUser {
 }
 
 model EmailBatch {
-  id                       String   @id @default(cuid())
-  userId                   String?
-  user                      GoogleUser? @relation(fields: [userId], references: [id])
+  id                    String      @id @default(cuid())
+  userId                String?
+  user                  GoogleUser? @relation(fields: [userId], references: [id])
 
-  subject                  String
-  body                     String @db.Text
+  subject               String
+  body                  String      @db.Text
 
-  startTime                DateTime
-  minDelayMs               Int
-  hourlyLimitPerSender    Int
+  startTime             DateTime
+  minDelayMs            Int
+  hourlyLimitPerSender  Int
 
-  createdAt                DateTime @default(now())
-  updatedAt                DateTime @updatedAt
+  createdAt             DateTime     @default(now())
+  updatedAt             DateTime     @updatedAt
 
-  scheduledEmails          ScheduledEmail[]
+  scheduledEmails       ScheduledEmail[]
 }
 
 model ScheduledEmail {
-  id               String      @id @default(cuid())
-  batchId          String
-  batch            EmailBatch  @relation(fields: [batchId], references: [id])
+  id              String      @id @default(cuid())
+  batchId         String
+  batch            EmailBatch @relation(fields: [batchId], references: [id])
 
   recipientEmail  String
-  senderKey        String
+  senderKey       String
   sequence        Int
 
   scheduledTime   DateTime
@@ -61,11 +61,10 @@ model ScheduledEmail {
   previewToken    String?     @unique
   previewPayload  Json?
 
-  createdAt        DateTime @default(now())
-  updatedAt        DateTime @updatedAt
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
 
   @@unique([batchId, recipientEmail])
   @@index([senderKey, status, scheduledTime])
   @@index([batchId, status])
 }
-
